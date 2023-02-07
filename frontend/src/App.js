@@ -79,9 +79,9 @@ function App() {
   }
 
   return (
-    <div className="App">
+      <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" aria-busy={loading}/>        
+        <img src={logo} className="App-logo mx-auto mt-5" alt="logo" aria-busy={loading}/>        
         <p>
           <button type="button" className="App-button" disabled={loading} onClick={deployContract}>{deployState} Contract</button>
         </p>
