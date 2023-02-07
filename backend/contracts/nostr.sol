@@ -19,6 +19,7 @@ contract Nostr {
     }
 
     struct Post {
+        uint id; // id of the post (for simplicity, I use the index of the post in the array of all posts, just good enough for this PoC)
         string text; // body of the post
         uint timestamp; // timestamp of the post
         User author;  // author of the post
@@ -46,15 +47,21 @@ contract Nostr {
     // create a new post
     function createPost(string calldata text) external {
         require(isUser(msg.sender), "User does not exist");
-        Post memory post = Post(text, block.timestamp, users[msg.sender]);
+        Post memory post = Post(AllPosts.length, text, block.timestamp, users[msg.sender]);
         posts[msg.sender].push(post);
         AllPosts.push(post);
     }
 
     // get posts of a user
-    function getPosts(address publicKey) external view returns (Post[] memory) {
+    function getPostsByUser(address publicKey) external view returns (Post[] memory) {
         require(isUser(publicKey), "User does not exist");
         return posts[publicKey];
+    }
+
+    // get posts by id
+    function getPostById(uint id) external view returns (Post memory) {
+        require(id < AllPosts.length, "Post does not exist");
+        return AllPosts[id];
     }
 
     // get all users
