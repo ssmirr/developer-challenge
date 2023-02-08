@@ -1,3 +1,4 @@
+import { TbWallet } from 'react-icons/tb';
 
 function Feed() {
 
@@ -54,7 +55,11 @@ function Feed() {
         <p>
           Login to enjoy posts from people you follow!
         </p>
-        <button className='btn btn-primary w-40 bg-dk-primary border rounded hover:bg-dk-primary-hover active:bg-dk-primary text-dk-faded p-3' onClick={connectMetamask}>Connect Metamask</button>
+        <button
+          className='btn btn-primary w-40 bg-dk-primary border rounded hover:bg-dk-primary-hover active:bg-dk-primary text-dk-faded p-3'
+          onClick={connectMetamask}>
+          Connect Metamask <TbWallet className='flex' size={20}/>
+        </button>
       </div>
     </div>
   );

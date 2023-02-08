@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { TbLogout } from 'react-icons/tb';
 
 function Nav() {
 
@@ -15,7 +16,7 @@ function Nav() {
                 Feed
             </Link>
             <div className="flex flex-row px-3 py-2 rounded border text-dk-faded bg-dk-primary hover:bg-dk-primary-hover active:bg-dk-primary cursor-pointer">
-                Logout
+                Logout <TbLogout className="flex ml-2 my-auto" size={20} />
             </div>
         </div>
     );
