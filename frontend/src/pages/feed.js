@@ -1,5 +1,10 @@
+import { useEffect } from "react";
 
 function Feed(props) {
+
+  useEffect(() => {
+    document.title = "Nostr Feed";
+  }, []);
 
   return (
     <div className="w-full flex flex-col">
