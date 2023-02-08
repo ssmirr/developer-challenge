@@ -125,3 +125,27 @@ If you want to be inspired by the Kaleido brand...
 ![Product Colors](StyleGuide/Colors.png?raw=true 'Product Colors')
 
 ![Text Styles](StyleGuide/TextStyles.png?raw=true 'Text Styles')
+
+---
+
+## Kaleido Developer Challenge: (Nostr + Twitter) implemenation as a DApp
+
+### Introduction
+
+This is a simple implementation of the Nostr + Twitter use case as a DApp. The DApp is built using React, Node.js, Solidity, and Kaleido blockchain. The DApp is a simple web application that allows users to create a post that are visible to others. The posts are stored on the blockchain and are visible to all users. The DApp also allows users to follow other users and see their posts.
+
+_If time allows, I will also implement like and comment on posts._
+
+
+### How to run the DApp
+
+1. Clone the repo
+2. Run `npm install` in the `backend` and `frontend` folders
+3. Run `npm start` in the `backend` and `frontend` folders
+4. Open `http://localhost:3000` in your browser
+
+### How to use the DApp
+
+1. Install Metamask and create an account
+2. Connect Metamask to the Kaleido blockchain network ([see here for instructions](https://docs.kaleido.io/developers/smart-contracts/metamask/))
+3. ? WIP
