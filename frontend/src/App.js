@@ -1,59 +1,34 @@
 import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import Nav from './components/nav';
+import FollowingSideBar from './components/followingSideBar';
+import Home from './pages/home';
+import Feed from './pages/feed';
 
 function App() {
 
-  async function connectMetamask() {
-    console.log('connecting metamask wallet');
-    try {
-      // get metamask ethereum object
-      const { ethereum } = window;
-
-      if (!ethereum) {
-        alert('Get MetaMask.io to use this App!');
-        return;
-      }
-
-      // get chainId
-      const chainId = await ethereum.request({ method: 'eth_chainId' });
-      console.log('metamask chainId', chainId);
-
-      // get accounts
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      console.log('metamask accounts', accounts);
-
-      // get all users
-      const getUsers = await fetch('/api/users', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      console.log('getUsers', await getUsers.json());
-
-      // set public key to login endpoint
-      const loginResult = await fetch('/api/users/login', {
-        method: 'POST',
-        body: JSON.stringify({ publicKey: accounts[0] }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      console.log('login result', await loginResult.json());
-
-      // const balance = await ethereum.request({
-      //     method: 'eth_getBalance',
-      //     params: [accounts[0], 'latest'],
-      // });
-      // console.log('balance', balance);
-    }
-    catch (error) {
-      console.error(error);
-    }
-
-  }
-
   return (
-    <div className="App">
-      <button className='btn btn-primary bg-dk-primary border rounded hover:bg-dk-primary-hover text-dk-faded p-4' onClick={connectMetamask}>Connect Metamask</button>
+    <div className="flex flex-col bg-dk-background-gray">
+      <img src={logo} className="w-14 h-14 mx-auto mb-5" alt="logo" />
+      <div className="App flex flex-row h-screen">
+
+        {/* left sidebar */}
+        <div className="flex flex-col w-1/4 border-r px-5 border-r-dk-border-gray">
+          <Nav />
+        </div>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/feed" element={<Feed />} />
+        </Routes>
+
+        {/* right sidebar */}
+        <div className="flex flex-col w-1/4 border-l px-5 border-l-dk-border-gray">
+          <FollowingSideBar />
+        </div>
+      </div>
     </div>
   );
 }
