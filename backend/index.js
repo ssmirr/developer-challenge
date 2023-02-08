@@ -7,13 +7,8 @@ const postRoutes = express.Router();
 const userRoutes = express.Router();
 
 const {
-  // KALEIDO_REST_GATEWAY_URL,
-  // KALEIDO_AUTH_USERNAME,
-  // KALEIDO_AUTH_PASSWORD,
   PORT,
   FROM_ADDRESS,
-  // CONTRACT_MAIN_SOURCE_FILE,
-  // CONTRACT_CLASS_NAME,
 } = require('./config');
 
 let swaggerClient; // Initialized in init()
@@ -45,11 +40,9 @@ init().catch(err => {
 /************** ROUTES **************
  * The following routes can/should be moved to their own files (e.g. /routes/*.js) and imported here.
  * This is just to keep the code in one place for the purposes of this demo.
+ * TODO: move routes to their own files when deploy script is ready & separated from start up logic
  ************************************/
 
-/**
- * @implements {express.Router} userRoutes
- */
 //  login
 userRoutes.post('/login', async (req, res) => {
   try {
@@ -156,10 +149,6 @@ userRoutes.get('/:publicKey', async (req, res) => {
   }
 });
 
-
-/**
- * @implements {express.Router} postRoutes
- */
 // getting all posts
 postRoutes.get('/', async (req, res) => {
   try {
