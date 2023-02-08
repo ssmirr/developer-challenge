@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Link } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
 import Nav from './components/nav';
@@ -11,7 +11,9 @@ function App() {
 
   return (
     <div className="flex flex-col bg-dk-background-gray">
-      <img src={logo} className="w-14 h-14 mx-auto mb-5" alt="logo" />
+      <Link to={'/'}>
+        <img src={logo} className="w-14 h-14 mx-auto mt-3 mb-10" alt="logo" />
+      </Link>
       <div className="App flex flex-row h-screen">
 
         {/* left sidebar */}
