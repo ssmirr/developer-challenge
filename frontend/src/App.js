@@ -24,8 +24,11 @@ function App() {
       console.log('metamask accounts', accounts);
 
       // get all users
-      const getUsers = await fetch('/api/users');
-      console.log('getUsers', getUsers.json());
+      const getUsers = await fetch('/api/users', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      console.log('getUsers', await getUsers.json());
 
       // set public key to login endpoint
       const loginResult = await fetch('/api/users/login', {
@@ -34,7 +37,7 @@ function App() {
         headers: { 'Content-Type': 'application/json' }
       });
 
-      console.log('login result', loginResult);
+      console.log('login result', await loginResult.json());
 
       // const balance = await ethereum.request({
       //     method: 'eth_getBalance',
