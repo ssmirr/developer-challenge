@@ -1,6 +1,6 @@
 /**
  * a simple PoC for reimplementing Nostr as a smart contract
- * Nost is a keypair-based protocol (not based on blockchain technology, but instead implemented as websocket nodes that store things)
+ * Nostr is a keypair-based protocol (not based on blockchain technology, but instead implemented as websocket nodes that store things)
  * Read more here: https://github.com/nostr-protocol/nostr
  * Here I'm really just trying to get a feel for how to implement a smart contract
  * This smart contract is similar to Nostr (and its https://github.com/damus-io/damus client), but not trying to implement the full protocol

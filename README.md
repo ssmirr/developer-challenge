@@ -132,7 +132,7 @@ If you want to be inspired by the Kaleido brand...
 
 ### Introduction
 
-This is a simple implementation of the Nostr + Twitter use case as a DApp. The DApp is built using React, Node.js, Solidity, and Kaleido blockchain. The DApp is a simple web application that allows users to create a post that are visible to others. The posts are stored on the blockchain and are visible to all users. The DApp also allows users to follow other users and see their posts.
+This is a simplified implementation of the Nostr+Twitter as a DApp. Nostr is a keypair-based protocol (it's not a blockchain technology, but instead implemented as websocket nodes that store things. [read more here](https://github.com/nostr-protocol/nostr)). This DApp is built using React, Node.js, Solidity, and Kaleido blockchain. The DApp is a simple web application that allows users to create a post that are visible to others. The posts are stored on the blockchain and are visible to all users. The DApp also allows users to follow other users and see their posts.
 
 _If time allows, I will also implement like and comment on posts._
 
