@@ -10,11 +10,11 @@ import Feed from './pages/feed';
 function App() {
 
   return (
-    <div className="flex flex-col bg-dk-background-gray">
+    <div className="flex flex-col bg-dk-background-gray h-screen">
       <Link to={'/'}>
         <img src={logo} className="w-14 h-14 mx-auto mt-3 mb-10" alt="logo" />
       </Link>
-      <div className="App flex flex-row h-screen">
+      <div className="App flex flex-row h-full">
 
         {/* left sidebar */}
         <div className="flex flex-col w-1/4 border-r px-5 border-r-dk-border-gray">
