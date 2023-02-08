@@ -20,8 +20,8 @@ let swaggerClient; // Initialized in init()
 let contractAddress; // Initialized in init()
 
 app.use(bodyparser.json());
-app.use('/posts', postRoutes);
-app.use('/users', userRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api/users', userRoutes);
 
 async function init() {
   // Deploy the contract
