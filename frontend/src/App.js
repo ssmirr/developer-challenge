@@ -4,101 +4,53 @@ import './App.css';
 
 function App() {
 
-  const [loading, setLoading] = useState(false);
-  const [deployState, setDeployState] = useState("Deploy");
-  const [contractAddress, setContractAddress] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const [desiredValue, setDesiredValue] = useState('test');
-  const [value, setValue] = useState("Get Value");
-
-  async function deployContract() {
-    setLoading(true);
-    setErrorMsg(null);
-    setDeployState("Deploying...")
+  async function connectMetamask() {
+    console.log('connecting metamask wallet');
     try {
-      const res = await fetch('/api/contract', {
+      // get metamask ethereum object
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert('Get MetaMask.io to use this App!');
+        return;
+      }
+
+      // get chainId
+      const chainId = await ethereum.request({ method: 'eth_chainId' });
+      console.log('metamask chainId', chainId);
+
+      // get accounts
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      console.log('metamask accounts', accounts);
+
+      // get all users
+      const getUsers = await fetch('/api/users');
+      console.log('getUsers', getUsers.json());
+
+      // set public key to login endpoint
+      const loginResult = await fetch('/api/users/login', {
         method: 'POST',
-        body: JSON.stringify({}),
+        body: JSON.stringify({ publicKey: accounts[0] }),
         headers: { 'Content-Type': 'application/json' }
       });
-      const {contractAddress : addr, error} = await res.json();
-      if (!res.ok) {
-        setErrorMsg(error)
-        setDeployState("Error! - Retry Deploy");
-      } else {
-        setContractAddress(addr);
-        setDeployState("Redeploy");
-      }
-    } catch (err) {
-      setErrorMsg(err.stack)
-      setDeployState("Error! - Retry Deploy");
-    }
-    setLoading(false);
-  }
 
-  async function setContractValue() {
-    setLoading(true);
-    setErrorMsg(null);
-    try {
-      const res = await fetch(`/api/contract/${contractAddress}/value`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          x: desiredValue
-        })
-      });
-      const {error} = await res.json();
-      if (!res.ok) {
-        setErrorMsg(error)
-      }
-    } catch(err) {
-      setErrorMsg(err.stack)
-    }
-    setLoading(false);
-  }
+      console.log('login result', loginResult);
 
-  async function getContractValue() {
-    setLoading(true);
-    setErrorMsg(null);
-    try {
-      const res = await fetch(`/api/contract/${contractAddress}/value`);
-      const {x, error} = await res.json();
-      if (!res.ok) {
-        setErrorMsg(error);
-      } else {
-        setValue(x);
-      }
-    } catch(err) {
-      setErrorMsg(err.stack)
+      // const balance = await ethereum.request({
+      //     method: 'eth_getBalance',
+      //     params: [accounts[0], 'latest'],
+      // });
+      // console.log('balance', balance);
     }
-    setLoading(false);
-  }
+    catch (error) {
+      console.error(error);
+    }
 
-  function handleChange(event) {
-    setDesiredValue(event.target.value);
   }
 
   return (
-      <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo mx-auto mt-5" alt="logo" aria-busy={loading}/>        
-        <p>
-          <button type="button" className="App-button" disabled={loading} onClick={deployContract}>{deployState} Contract</button>
-        </p>
-        { contractAddress && <p>
-          Contract Address: {contractAddress}
-        </p>}
-        <p>
-          <input className="App-input" disabled={loading || !contractAddress} onChange={handleChange}/>
-          <button type="button" className="App-button" disabled={loading || !contractAddress || !desiredValue} onClick={setContractValue}>Set Value</button>
-        </p>
-        <p>
-          <button type="button" className="App-button" disabled={loading || !contractAddress} onClick={getContractValue}>{value}</button>
-        </p>
-        { errorMsg && <pre class="App-error">
-          Error: {errorMsg}
-        </pre>}
-      </header>
+    <div className="App">
+      <button className='btn btn-primary bg-dk-primary border rounded hover:bg-dk-primary-hover text-dk-faded p-4' onClick={connectMetamask}>Connect Metamask</button>
     </div>
   );
 }
