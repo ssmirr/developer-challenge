@@ -9,7 +9,7 @@
 
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity >=0.4.22 <0.9.0;
-// pragma experimental ABIEncoderV2;
+pragma experimental ABIEncoderV2;
 
 contract Nostr {
     struct User {
@@ -45,12 +45,12 @@ contract Nostr {
     }
 
     // create a new post, give the text and user
-    function createPost(string memory text, address publicKey) external {
+    function createPost(string calldata text, address publicKey) external {
         require(isUser(publicKey), "User does not exist");
         // require(users[publicKey].publicKey == msg.sender, "User does not match");
         Post memory post = Post(AllPosts.length, text, block.timestamp, users[publicKey]);
-        posts[publicKey].push(post);
         AllPosts.push(post);
+        posts[publicKey].push(post);
     }
 
     // get posts of a user
