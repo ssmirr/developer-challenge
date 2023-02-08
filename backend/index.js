@@ -67,8 +67,12 @@ userRoutes.post('/login', async (req, res) => {
     res.status(200).send(result.body);
   }
   catch (err) {
-    console.error(err);
-    res.status(500).send({ error: `${err.response && JSON.stringify(err.response.body) && err.response.text}\n${err.stack}` });
+    if (err.response && err.response.body && err.response.body.error && err.response.body.error.includes('already exists')) {
+      res.status(200).send({ message: 'User already exists' });
+    }
+    else {
+      res.status(500).send({ error: `${err.response && JSON.stringify(err.response.body) && err.response.text}\n${err.stack}` });
+    }
   }
 });
 
