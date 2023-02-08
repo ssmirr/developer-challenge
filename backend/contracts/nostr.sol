@@ -31,11 +31,11 @@ contract Nostr {
     mapping(address => User) users; // a mapping of public key to user
     mapping(address => Post[]) posts; // a mapping of author public key to posts (each user can have multiple posts)
 
-    // signup to use the app
-    function signup() external {
-        require(!isUser(msg.sender), "User already exists");
-        User memory user = User(msg.sender, new address[](0), new address[](0));
-        users[msg.sender] = user;
+    // create a new user
+    function createUser(address publicKey) external {
+        require(!isUser(publicKey), "User already exists");
+        User memory user = User(publicKey, new address[](0), new address[](0));
+        users[publicKey] = user;
         AllUsers.push(user);
     }
 
@@ -44,11 +44,12 @@ contract Nostr {
         return users[publicKey].publicKey == publicKey;
     }
 
-    // create a new post
-    function createPost(string calldata text) external {
-        require(isUser(msg.sender), "User does not exist");
-        Post memory post = Post(AllPosts.length, text, block.timestamp, users[msg.sender]);
-        posts[msg.sender].push(post);
+    // create a new post, give the text and user
+    function createPost(string memory text, address publicKey) external {
+        require(isUser(publicKey), "User does not exist");
+        // require(users[publicKey].publicKey == msg.sender, "User does not match");
+        Post memory post = Post(AllPosts.length, text, block.timestamp, users[publicKey]);
+        posts[publicKey].push(post);
         AllPosts.push(post);
     }
 
@@ -74,7 +75,7 @@ contract Nostr {
         return AllPosts;
     }
 
-    // is user1 following user2
+    // is user A following user B
     function isFollowing(address publicKey1, address publicKey2) public view returns (bool) {
         require(isUser(publicKey1), "User does not exist");
         require(isUser(publicKey2), "User does not exist");
@@ -86,36 +87,35 @@ contract Nostr {
         return false;
     }
 
-    // follow a user
-    function follow(address publicKey) external {
-        require(isUser(msg.sender), "User does not exist");
-        require(isUser(publicKey), "User does not exist");
-        require(msg.sender != publicKey, "Cannot follow yourself");
-        require(!isFollowing(msg.sender, publicKey), "Already following");
-        users[msg.sender].following.push(publicKey);
-        users[publicKey].followers.push(msg.sender);
+    // follow a user (add user B to following list of user A and add user A to followers list of user B). given the public keys of user A and user B
+    function follow(address publicKey1, address publicKey2) external {
+        require(isUser(publicKey1), "User does not exist");
+        require(isUser(publicKey2), "User does not exist");
+        require(publicKey1 != publicKey2, "Cannot follow yourself");
+        require(!isFollowing(publicKey1, publicKey2), "Already following");
+        users[publicKey1].following.push(publicKey2);
+        users[publicKey2].followers.push(publicKey1);
     }
 
-    // unfollow a user
-    function unfollow(address publicKey) external {
-        require(isUser(msg.sender), "User does not exist");
-        require(isUser(publicKey), "User does not exist");
-        require(msg.sender != publicKey, "Cannot unfollow yourself");
-        require(isFollowing(msg.sender, publicKey), "Not following");
-        for (uint i = 0; i < users[msg.sender].following.length; i++) {
-            if (users[msg.sender].following[i] == publicKey) {
-                users[msg.sender].following[i] = users[msg.sender].following[users[msg.sender].following.length - 1]; // swap this element with the last element
-                users[msg.sender].following.pop(); // remove last element
+    // unfollow a user (remove user B from following list of user A and remove user A from followers list of user B). given the public keys of user A and user B
+    function unfollow(address publicKey1, address publicKey2) external {
+        require(isUser(publicKey1), "User does not exist");
+        require(isUser(publicKey2), "User does not exist");
+        require(publicKey1 != publicKey2, "Cannot unfollow yourself");
+        require(isFollowing(publicKey1, publicKey2), "Not following");
+        for (uint i = 0; i < users[publicKey1].following.length; i++) {
+            if (users[publicKey1].following[i] == publicKey2) {
+                users[publicKey1].following[i] = users[publicKey1].following[users[publicKey1].following.length - 1];
+                users[publicKey1].following.pop();
                 break;
             }
         }
-        for (uint i = 0; i < users[publicKey].followers.length; i++) {
-            if (users[publicKey].followers[i] == msg.sender) {
-                users[publicKey].followers[i] = users[publicKey].followers[users[publicKey].followers.length - 1]; // swap this element with the last element
-                users[publicKey].followers.pop(); // remove last element
+        for (uint i = 0; i < users[publicKey2].followers.length; i++) {
+            if (users[publicKey2].followers[i] == publicKey1) {
+                users[publicKey2].followers[i] = users[publicKey2].followers[users[publicKey2].followers.length - 1];
+                users[publicKey2].followers.pop();
                 break;
             }
         }
     }
-
 }
