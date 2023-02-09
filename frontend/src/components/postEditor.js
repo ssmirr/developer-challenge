@@ -6,12 +6,24 @@ function PostEditor(props) {
 
   const [text, setText] = useState('');
 
-  function post() {
+  // sign the text with metamask and return the signature
+  async function sign() {
+    return window.ethereum.request({
+      method: 'personal_sign',
+      params: [window.ethereum.selectedAddress, text]
+    });
+  }
+
+  async function post() {
     if (text.length === 0) return;
-    console.log(accountContext.account, 'is trying to make a post:', text);
+    // sign the text
+    const signature = (await sign()) + '0x';
+    
+    // send the text and signature to the backend
+    console.log(accountContext.account, 'is trying to make a post', text, 'with signature:', signature);
     fetch('/api/posts', {
       method: 'POST',
-      body: JSON.stringify({ text, publicKey: accountContext.account }),
+      body: JSON.stringify({ text, publicKey: accountContext.account, signature }),
       headers: { 'Content-Type': 'application/json' }
     }).then(res => res.json())
       .then(post => {

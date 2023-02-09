@@ -1,4 +1,5 @@
 const express = require('express');
+const { ethers } = require('ethers');
 const app = express();
 const deploy = require('./deploy');
 
@@ -185,7 +186,15 @@ postRoutes.get('/', async (req, res) => {
 // creating a post
 postRoutes.post('/', async (req, res) => {
   try {
-    const { publicKey, text } = req.body;
+    const { publicKey, text, signature } = req.body;
+
+    // verify signature + public key match
+    const signerAddress = ethers.utils.verifyMessage(text, signature);
+    if (signerAddress.toLowerCase() !== publicKey.toLowerCase()) {
+      res.status(500).send({ error: `Signature does not match public key. Signer address: "${signerAddress.toLowerCase()}" , address: "${publicKey.toLowerCase()}"` });
+      return;
+    }
+
     console.log('creating post for', publicKey, text);
     const result = await swaggerClient.apis.default.createPost_post({
       address: contractAddress,
