@@ -15,7 +15,6 @@ function Post(props) {
 
   useEffect(() => {
     document.title = "Nostr Feed";
-    console.log('props=', props)
     const svg = createAvatar(avataaars, { seed: props.author.publicKey }).toDataUriSync();
     setAvatar(svg);
   }, [props]);

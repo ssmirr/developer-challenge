@@ -14,7 +14,6 @@ function App() {
     fetch('/api/posts')
       .then(res => res.json())
       .then(posts => {
-        console.log(posts.output)
         setPosts(posts.output.reverse());
       });
 
