@@ -133,7 +133,7 @@ userRoutes.post('/unfollow', async (req, res) => {
 userRoutes.get('/:publicKey', async (req, res) => {
   const { publicKey } = req.params;
   try {
-    const result = await swaggerClient.apis.default.getPostsByUser_post({
+    const result = await swaggerClient.apis.default.getPostsByUser_get({
       address: contractAddress,
       body: {
         publicKey
