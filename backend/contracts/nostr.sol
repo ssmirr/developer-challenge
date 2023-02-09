@@ -123,4 +123,14 @@ contract Nostr {
             }
         }
     }
+
+    // get all users that given user is following
+    function getFollowing(address publicKey) external view returns (User[] memory) {
+        require(isUser(publicKey), "User does not exist");
+        User[] memory following = new User[](users[publicKey].following.length);
+        for (uint i = 0; i < users[publicKey].following.length; i++) {
+            following[i] = users[users[publicKey].following[i]];
+        }
+        return following;
+    }
 }
