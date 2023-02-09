@@ -4,7 +4,7 @@ import Post from '../components/post';
 import { AccountContext } from '../context/AccountContext';
 
 import { TbCopy } from 'react-icons/tb';
-import { SlUserFollow } from 'react-icons/sl';
+import { SlUserFollow, SlUserUnfollow } from 'react-icons/sl';
 
 function Users(props) {
   const accountContext = useContext(AccountContext);
@@ -43,9 +43,14 @@ function Users(props) {
         body: JSON.stringify({ followee: publicKey, follower: accountContext.account }),
         headers: { 'Content-Type': 'application/json' }
       })).json();
-      console.log('unfollowResponse', unfollowResponse);
 
-      setFollowed(false);
+      if (!unfollowResponse.error) {
+        setFollowed(false);
+        accountContext.setFollowing(following => following.filter(follow => follow.publicKey !== publicKey));
+      }
+      else {
+        console.error('failed to unfollow', unfollowResponse.error);
+      }
     } catch (error) {
       console.error('failed to unfollow', error);
     }
@@ -92,7 +97,7 @@ function Users(props) {
             <TbCopy className="inline ml-1 hover:text-dk-secondary-hover cursor-pointer my-auto" onClick={() => { navigator.clipboard.writeText(publicKey) }} />
           </div>
           {
-            accountContext.account && !followed &&
+            accountContext.account &&
             <button
               className={"ml-auto mr-3 text-dk-faded bg-dk-primary hover:bg-dk-primary-hover text-white font-bold py-1 px-4 rounded-full" + 
                       (accountContext.account === publicKey ? ' hover:bg-dk-secondary bg-dk-secondary active:bg-dk-secondary cursor-not-allowed' : '')}
@@ -105,7 +110,17 @@ function Users(props) {
                   follow()
               }}
               title={accountContext.account === publicKey ? `You can't follow yourself.` : `Follow this user`}>
-              Follow <SlUserFollow className="inline ml-1 my-auto" />
+              {followed ?
+                <>
+                  Unfollow
+                  <SlUserUnfollow className="inline ml-1 my-auto" />
+                </>
+                :
+                <>
+                  Follow
+                  <SlUserFollow className="inline ml-1 my-auto" />
+                </>
+              }
             </button>
           }
         </div>
