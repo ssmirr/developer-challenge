@@ -168,12 +168,13 @@ postRoutes.get('/', async (req, res) => {
 // creating a post
 postRoutes.post('/', async (req, res) => {
   try {
-    const { publicKey, content } = req.body;
+    const { publicKey, text } = req.body;
+    console.log('creating post for', publicKey, text);
     const result = await swaggerClient.apis.default.createPost_post({
       address: contractAddress,
       body: {
         publicKey,
-        content
+        text
       },
       "kld-from": FROM_ADDRESS,
       "kld-sync": "true"
