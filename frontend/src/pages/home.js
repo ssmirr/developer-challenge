@@ -15,7 +15,7 @@ function App() {
       .then(res => res.json())
       .then(posts => {
         console.log(posts.output)
-        setPosts(posts.output);
+        setPosts(posts.output.reverse());
       });
 
   }, []);

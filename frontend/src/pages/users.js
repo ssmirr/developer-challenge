@@ -62,7 +62,7 @@ function Users(props) {
         else {
           console.log('posts', posts, publicKey)
           if (posts.output)
-            setPosts(posts.output);
+            setPosts(posts.output.reverse());
           else
             setPosts([]);
 
