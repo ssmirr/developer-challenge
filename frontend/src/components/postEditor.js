@@ -28,7 +28,8 @@ function PostEditor(props) {
         <textarea
           className="w-full p-3 h-20 max-h-50 ml-3 resize-y text-lg font-semibold font-sans border border-dk-border-gray rounded-md"
           placeholder="What's happening?"
-          onKeyUpCapture={(e) => { setText(e.target.value) }} />
+          onChange={(e) => { setText(e.target.value) }}
+          value={text} />
         <button
           className={"absolute bottom-5 right-5 px-2 text-dk-faded bg-dk-primary rounded-md cursor-pointer hover:bg-dk-primary-hover active:bg-dk-primary" + (text.length === 0 ? " bg-dk-secondary hover:bg-dk-secondary active:bg-dk-secondary cursor-not-allowed" : "")}
           onClick={post}>Post</button>
