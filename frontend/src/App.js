@@ -10,6 +10,7 @@ import Nav from './components/nav';
 import FollowingSideBar from './components/followingSideBar';
 import Home from './pages/home';
 import Feed from './pages/feed';
+import Users from './pages/users';
 
 function App() {
   const [avatar, setAvatar] = useState(null);
@@ -52,6 +53,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/feed" element={<Feed account={account}/>} />
+          <Route path="/:publicKey" element={<Users account={account}/>} />
         </Routes>
 
         {/* right sidebar */}
