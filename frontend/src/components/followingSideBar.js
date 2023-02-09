@@ -9,6 +9,10 @@ function FollowingSideBar() {
   const accountContext = useContext(AccountContext);
 
   useEffect(() => {
+    if (!accountContext.account) {
+      return;
+    }
+
     // getting following for current user
     fetch(`/api/users/following?publicKey=${accountContext.account}`)
       .then(res => res.json())
@@ -35,6 +39,7 @@ function FollowingSideBar() {
         {
           accountContext.following.map((followee) =>
           <Link
+          key={followee.publicKey}
           className="flex flex-row px-3 py-2 text-sm rounded border border-dk-border-gray text-dk-body-title bg-transparent hover:bg-dk-secondary-hover hover:text-dk-faded active:bg-dk-border-gray cursor-pointer"
           to={`/${followee.publicKey}`}>
               <img className="w-8 h-8 rounded-full" src={createAvatar(avataaars, { seed: followee.publicKey }).toDataUriSync()} alt="avatar" />
