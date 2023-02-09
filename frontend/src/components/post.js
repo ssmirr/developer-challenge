@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import { createAvatar } from '@dicebear/core';
 import { avataaars } from '@dicebear/collection';
 
+// time ago 
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+TimeAgo.addDefaultLocale(en)
+const timeAgo = new TimeAgo('en-US')
+
 function Post(props) {
 
   const [avatar, setAvatar] = useState(null);
@@ -23,11 +29,16 @@ function Post(props) {
         <div className="ml-3 my-auto text-sm font-semibold font-sans">
           {props.author.publicKey.substring(0, 8)}...
         </div>
-        {/* time (converted from props.timestamp) */}
+        {/* time ago -- the package even has a twitter style! https://www.npmjs.com/package/javascript-time-ago#user-content-twitter */}
         <div className="ml-auto mr-3 my-auto text-sm text-dk-secondary font-sans">
-          {new Date(Number(props.timestamp) * 1000).toLocaleString()}
+          {timeAgo.format(new Date(Number(props.timestamp) * 1000), 'twitter')}
         </div>
       </div>
+
+      {/* post content */}
+      <p className="ml-3 my-3 font-sans text-left">
+        {props.text}
+      </p>
     </div>
   );
 }
