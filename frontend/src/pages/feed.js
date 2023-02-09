@@ -1,21 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
+import PostEditor from "../components/postEditor";
+import { AccountContext } from "../context/AccountContext";
 
-function Feed(props) {
+function Feed() {
+  const accountContext = useContext(AccountContext);
 
   useEffect(() => {
     document.title = "Nostr Feed";
   }, []);
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full">
       <div className="mx-auto">
-        {props.account ?
+        {accountContext.account ?
           <div>
-            here are all the posts from people you follow!
+            <PostEditor/>
+            <div className="border-b border-b-dk-border-gray text-dk-secondary py-5">
+                See the latest posts from people you follow 👀
+            </div>
           </div>
           :
           <div>
-            Login to enjoy posts from people you follow!
+            <div className="border-b border-b-dk-border-gray text-dk-secondary py-5">
+              Login to enjoy posts from people you follow! 💂‍♀️
+            </div>
           </div>
         }
       </div>

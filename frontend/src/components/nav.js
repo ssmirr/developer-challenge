@@ -1,8 +1,11 @@
+import { useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { TbLogout, TbWallet } from 'react-icons/tb';
-import { useEffect } from 'react';
+
+import { AccountContext } from '../context/AccountContext';
 
 function Nav(props) {
+    const accountContext = useContext(AccountContext);
 
     async function connectMetamask() {
         console.log('connecting metamask wallet');
@@ -41,7 +44,8 @@ function Nav(props) {
                 // console.log('login result', await loginResult.json());
 
                 localStorage.setItem('account', accounts[0]);
-                props.setAccount(accounts[0]); // set account in parent component
+                // props.setAccount(accounts[0]); // set account in parent component
+                accountContext.setAccount(accounts[0]);
             } catch (error) {
                 console.error('failed to login', error);
             }
@@ -55,13 +59,15 @@ function Nav(props) {
     async function logout() {
         console.log('logging out');
         localStorage.removeItem('account');
-        props.setAccount(null);
+        // props.setAccount(null);
+        accountContext.setAccount(null);
     }
 
     useEffect(() => {
         const account = localStorage.getItem('account');
         if (account) {
-            props.setAccount(account);
+            // props.setAccount(account);
+            accountContext.setAccount(account);
         }
     }, []);
 
@@ -77,7 +83,7 @@ function Nav(props) {
                 to="/feed">
                 Feed
             </Link>
-            {props.account ?
+            {accountContext.account ?
                 (
                 <button className="flex flex-row px-3 py-2 rounded border text-dk-faded bg-dk-primary hover:bg-dk-primary-hover active:bg-dk-primary cursor-pointer"
                         onClick={logout}>

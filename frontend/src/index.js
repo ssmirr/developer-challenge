@@ -5,15 +5,17 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
+import { AccountContextProvider } from './context/AccountContext';
 
 
 const container = ReactDOM.createRoot(document.getElementById('root'));
 container.render(
  <React.StrictMode>
-    <BrowserRouter>
-       <App />
-    </BrowserRouter>
+    <AccountContextProvider>
+      <BrowserRouter>
+         <App />
+      </BrowserRouter>
+   </AccountContextProvider>
  </React.StrictMode>
 );
 

@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import { createAvatar } from '@dicebear/core';
-import { avataaars } from '@dicebear/collection';
 
 import logo from './logo.svg';
 import './App.css';
 
-import { AccountContextProvider } from './context/AccountContext';
+import { AccountContext } from './context/AccountContext';
 import Nav from './components/nav';
 import FollowingSideBar from './components/followingSideBar';
 import Home from './pages/home';
@@ -14,27 +12,17 @@ import Feed from './pages/feed';
 import Users from './pages/users';
 
 function App() {
-  const [avatar, setAvatar] = useState(null);
+  const accountContext = useContext(AccountContext);
   const [account, setAccount] = useState(null);
 
-  useEffect(() => {
-    if (account) {
-      const svg = createAvatar(avataaars, { seed: account }).toDataUriSync();
-      setAvatar(svg);
-    }
-    else {
-      setAvatar(null);
-    }
-  }, [account]);
-
   return (
-    <AccountContextProvider>
+    <>
     <div className="h-screen">
       {/* site header */}
       <div className="flex flex-row py-3 border-b border-b-dk-border-gray">
-        {avatar ?
+        {accountContext.account ?
           <div className="flex ml-52 w-1/4 mr-au my-auto text-4xl font-sans px-5">
-            Hi <img src={avatar} className="w-10 h-10" alt="logo" /> !
+            Hi <img src={accountContext.avatar} className="w-10 h-10" alt="logo" /> !
           </div> :
           <div className="flex ml-52 w-1/4 mr-au my-auto text-4xl font-sans px-5"/>
         }
@@ -49,12 +37,12 @@ function App() {
 
         {/* left sidebar */}
         <div className="flex flex-col ml-52 w-1/4 border-r p-5 border-r-dk-border-gray">
-          <Nav account={account} setAccount={setAccount} />
+          <Nav />
         </div>
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/feed" element={<Feed account={account}/>} />
+          <Route path="/feed" element={<Feed />} />
           <Route path="/:publicKey" element={<Users account={account}/>} />
         </Routes>
 
@@ -64,7 +52,7 @@ function App() {
         </div>
       </div>
     </div>
-    </AccountContextProvider>
+    </>
   );
 }
 

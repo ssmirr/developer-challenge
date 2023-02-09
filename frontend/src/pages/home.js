@@ -1,7 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Post from '../components/post';
+import PostEditor from '../components/postEditor';
+
+import { AccountContext } from '../context/AccountContext';
 
 function App() {
+  const accountContext = useContext(AccountContext);
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -18,6 +22,10 @@ function App() {
 
   return (
     <div className="w-full">
+      {accountContext.account &&
+        <PostEditor />
+      }
+
       <div className="border-b border-b-dk-border-gray text-dk-secondary py-5">
           See what what's happening on 🌎
       </div>

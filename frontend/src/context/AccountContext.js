@@ -17,11 +17,11 @@ const AccountContextProvider = ({ children }) => {
       setAvatar(createAvatar(avataaars, { seed: account }).toDataUriSync());
     }
 
-  }, []);
+  }, [account]);
 
   return (
     // the Provider gives access to the context to its children
-    <AccountContext.Provider value={{account, avatar}}>
+    <AccountContext.Provider value={{account, avatar, setAccount}}>
       {children}
     </AccountContext.Provider>
   );
