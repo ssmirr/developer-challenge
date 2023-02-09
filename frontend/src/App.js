@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 import logo from './logo.svg';
@@ -15,10 +15,9 @@ function App() {
   const accountContext = useContext(AccountContext);
 
   return (
-    <>
-    <div className="h-screen">
+    <div className="h-[calc(100vh-5rem)]">
       {/* site header */}
-      <div className="flex flex-row py-3 border-b border-b-dk-border-gray">
+      <div className="h-20 flex flex-row py-3 border-b border-b-dk-border-gray">
         {accountContext.account ?
           <div className="flex ml-52 w-1/4 mr-au my-auto text-4xl font-sans px-5">
             Hi <img src={accountContext.avatar} className="w-10 h-10" alt="logo" /> !
@@ -32,7 +31,7 @@ function App() {
       </div>
 
       {/* main content */}
-      <div className="App flex flex-row h-full">
+      <div className="text-center flex flex-row h-full">
 
         {/* left sidebar */}
         <div className="flex flex-col ml-52 w-1/4 border-r p-5 border-r-dk-border-gray">
@@ -51,7 +50,6 @@ function App() {
         </div>
       </div>
     </div>
-    </>
   );
 }
 

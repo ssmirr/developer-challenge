@@ -81,7 +81,7 @@ function Users(props) {
   }, [publicKey, accountContext.account]);
 
   return (
-    <div className="w-full">
+    <div className="w-full px-5 overflow-y-auto">
       {userNotFound && <div className="border-b border-b-dk-border-gray text-dk-secondary pb-5">User not found ☠️</div>}
       {!userNotFound && 
       <div>
