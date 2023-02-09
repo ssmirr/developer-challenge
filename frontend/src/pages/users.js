@@ -15,7 +15,6 @@ function Users(props) {
   const [userNotFound, setUserNotFound] = useState(false);
 
   async function follow() {
-    console.log('follow')
     try {
       const followResponse = await (await fetch('/api/users/follow', {
         method: 'POST',
@@ -36,7 +35,6 @@ function Users(props) {
   }
 
   async function unfollow() {
-    console.log('unfollow')
     try {
       const unfollowResponse = await (await fetch('/api/users/unfollow', {
         method: 'POST',
@@ -66,24 +64,22 @@ function Users(props) {
         if (posts.error)
           setUserNotFound(true);
         else {
-          console.log('posts', posts, publicKey)
           if (posts.output)
             setPosts(posts.output.reverse());
           else
             setPosts([]);
-
-          // check if followed
-          if (accountContext.account) {
-            fetch(`/api/users/isFollowed?followee=${publicKey}&follower=${accountContext.account}`)
-              .then(res => res.json())
-              .then(isFollowed => {
-                console.log('isFollowed', isFollowed);
-                setFollowed(isFollowed.output);
-              });
-          }
         }
       })
       .catch(err => console.error('failed to get posts from user', err))
+    
+    // check if followed
+    if (accountContext.account) {
+      fetch(`/api/users/isFollowed?followee=${publicKey}&follower=${accountContext.account}`)
+        .then(res => res.json())
+        .then(isFollowed => {
+          setFollowed(isFollowed.output);
+        });
+    }
   }, [publicKey, accountContext.account]);
 
   return (
