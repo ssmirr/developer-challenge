@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Post from '../components/post';
+import { AccountContext } from '../context/AccountContext';
 
 import { TbCopy } from 'react-icons/tb';
 import { SlUserFollow } from 'react-icons/sl';
 
 function Users(props) {
+  const accountContext = useContext(AccountContext);
+
   const [followed, setFollowed] = useState(false);
   const {publicKey} = useParams(); // getting the public key from the url params (see Route defined in frontend/src/App.js)
   const [posts, setPosts] = useState([]);
@@ -16,7 +19,7 @@ function Users(props) {
     try {
       const followResponse = await (await fetch('/api/users/follow', {
         method: 'POST',
-        body: JSON.stringify({ followee: publicKey, follower: props.account }),
+        body: JSON.stringify({ followee: publicKey, follower: accountContext.account }),
         headers: { 'Content-Type': 'application/json' }
       })).json();
 
@@ -36,7 +39,7 @@ function Users(props) {
     try {
       const unfollowResponse = await (await fetch('/api/users/unfollow', {
         method: 'POST',
-        body: JSON.stringify({ followee: publicKey, follower: props.account }),
+        body: JSON.stringify({ followee: publicKey, follower: accountContext.account }),
         headers: { 'Content-Type': 'application/json' }
       })).json();
       console.log('unfollowResponse', unfollowResponse);
@@ -64,8 +67,8 @@ function Users(props) {
             setPosts([]);
 
           // check if followed
-          if (props.account) {
-            fetch(`/api/users/isFollowed?followee=${publicKey}&follower=${props.account}`)
+          if (accountContext.account) {
+            fetch(`/api/users/isFollowed?followee=${publicKey}&follower=${accountContext.account}`)
               .then(res => res.json())
               .then(isFollowed => {
                 console.log('isFollowed', isFollowed);
@@ -75,7 +78,7 @@ function Users(props) {
         }
       })
       .catch(err => console.error('failed to get posts from user', err))
-  }, [publicKey, props.account]);
+  }, [publicKey, accountContext.account]);
 
   return (
     <div className="w-full">
@@ -88,19 +91,19 @@ function Users(props) {
             <TbCopy className="inline ml-1 hover:text-dk-secondary-hover cursor-pointer my-auto" onClick={() => { navigator.clipboard.writeText(publicKey) }} />
           </div>
           {
-            props.account && !followed &&
+            accountContext.account && !followed &&
             <button
               className={"ml-auto mr-3 text-dk-faded bg-dk-primary hover:bg-dk-primary-hover text-white font-bold py-1 px-4 rounded-full" + 
-                      (props.account === publicKey ? ' hover:bg-dk-secondary bg-dk-secondary active:bg-dk-secondary cursor-not-allowed' : '')}
+                      (accountContext.account === publicKey ? ' hover:bg-dk-secondary bg-dk-secondary active:bg-dk-secondary cursor-not-allowed' : '')}
               onClick={() => {
-                if(props.account === publicKey)
+                if(accountContext.account === publicKey)
                   return;
                 else if (followed)
                   unfollow()
                 else
                   follow()
               }}
-              title={props.account === publicKey ? `You can't follow yourself.` : `Follow this user`}>
+              title={accountContext.account === publicKey ? `You can't follow yourself.` : `Follow this user`}>
               Follow <SlUserFollow className="inline ml-1 my-auto" />
             </button>
           }

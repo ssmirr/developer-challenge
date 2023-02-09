@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 
 import logo from './logo.svg';
@@ -13,7 +13,6 @@ import Users from './pages/users';
 
 function App() {
   const accountContext = useContext(AccountContext);
-  const [account, setAccount] = useState(null);
 
   return (
     <>
@@ -43,7 +42,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/feed" element={<Feed />} />
-          <Route path="/:publicKey" element={<Users account={account}/>} />
+          <Route path="/:publicKey" element={<Users />} />
         </Routes>
 
         {/* right sidebar */}

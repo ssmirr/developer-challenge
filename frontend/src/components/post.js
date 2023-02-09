@@ -18,7 +18,7 @@ function Post(props) {
     console.log('props=', props)
     const svg = createAvatar(avataaars, { seed: props.author.publicKey }).toDataUriSync();
     setAvatar(svg);
-  }, []);
+  }, [props]);
 
   return (
     <div className="w-full flex flex-col border-b border-b-dk-border-gray">

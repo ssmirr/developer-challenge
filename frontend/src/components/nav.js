@@ -4,7 +4,7 @@ import { TbLogout, TbWallet } from 'react-icons/tb';
 
 import { AccountContext } from '../context/AccountContext';
 
-function Nav(props) {
+function Nav() {
     const accountContext = useContext(AccountContext);
 
     async function connectMetamask() {
@@ -44,7 +44,6 @@ function Nav(props) {
                 // console.log('login result', await loginResult.json());
 
                 localStorage.setItem('account', accounts[0]);
-                // props.setAccount(accounts[0]); // set account in parent component
                 accountContext.setAccount(accounts[0]);
             } catch (error) {
                 console.error('failed to login', error);
@@ -59,17 +58,15 @@ function Nav(props) {
     async function logout() {
         console.log('logging out');
         localStorage.removeItem('account');
-        // props.setAccount(null);
         accountContext.setAccount(null);
     }
 
     useEffect(() => {
         const account = localStorage.getItem('account');
         if (account) {
-            // props.setAccount(account);
             accountContext.setAccount(account);
         }
-    }, []);
+    }, [accountContext]);
 
     return (
         <div className="flex flex-col space-y-1">
