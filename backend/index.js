@@ -149,6 +149,27 @@ userRoutes.get('/isFollowed', async (req, res) => {
   }
 });
 
+// get all following of a user
+userRoutes.get('/following', async (req, res) => {
+  try {
+    const { publicKey } = req.query;
+    const result = await swaggerClient.apis.default.getFollowing_get({
+      address: contractAddress,
+      publicKey,
+      body: {
+        publicKey
+      },
+      "kld-from": FROM_ADDRESS,
+      "kld-sync": "true"
+    });
+    res.status(200).send(result.body);
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).send({ error: `${err.response && JSON.stringify(err.response.body) && err.response.text}\n${err.stack}` });
+  }
+});
+
 // get all posts from a user
 userRoutes.get('/:publicKey', async (req, res) => {
   const { publicKey } = req.params;
