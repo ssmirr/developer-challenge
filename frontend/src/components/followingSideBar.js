@@ -7,7 +7,6 @@ import { avataaars } from '@dicebear/collection';
 
 function FollowingSideBar() {
   const accountContext = useContext(AccountContext);
-  const [following, setFollowing] = useState([]);
 
   useEffect(() => {
     // getting following for current user
@@ -21,7 +20,7 @@ function FollowingSideBar() {
         }
 
         if (following.output.length > 0) {
-          setFollowing(following.output);
+          accountContext.setFollowing(following.output);
           return;
         }
       });
@@ -34,7 +33,7 @@ function FollowingSideBar() {
           You are following :
         </div>
         {
-          following.map((followee) =>
+          accountContext.following.map((followee) =>
           <Link
           className="flex flex-row px-3 py-2 text-sm rounded border border-dk-border-gray text-dk-body-title bg-transparent hover:bg-dk-secondary-hover hover:text-dk-faded active:bg-dk-border-gray cursor-pointer"
           to={`/${followee.publicKey}`}>

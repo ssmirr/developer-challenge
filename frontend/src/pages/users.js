@@ -25,6 +25,7 @@ function Users(props) {
 
       if (!followResponse.error) {
         setFollowed(true);
+        accountContext.setFollowing(following => [...following, { publicKey: publicKey }])
       }
       else {
         console.error('failed to follow', followResponse.error);
