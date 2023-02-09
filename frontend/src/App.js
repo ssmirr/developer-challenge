@@ -6,6 +6,7 @@ import { avataaars } from '@dicebear/collection';
 import logo from './logo.svg';
 import './App.css';
 
+import { AccountContextProvider } from './context/AccountContext';
 import Nav from './components/nav';
 import FollowingSideBar from './components/followingSideBar';
 import Home from './pages/home';
@@ -27,6 +28,7 @@ function App() {
   }, [account]);
 
   return (
+    <AccountContextProvider>
     <div className="h-screen">
       {/* site header */}
       <div className="flex flex-row py-3 border-b border-b-dk-border-gray">
@@ -62,6 +64,7 @@ function App() {
         </div>
       </div>
     </div>
+    </AccountContextProvider>
   );
 }
 
