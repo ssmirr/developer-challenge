@@ -25,6 +25,8 @@ contract Nostr {
         User author;  // author of the post
     }
 
+    event NewPost(Post post);
+
     Post[] private AllPosts; // an array of all posts
     User[] private AllUsers; // an array of all users
 
@@ -51,6 +53,9 @@ contract Nostr {
         Post memory post = Post(AllPosts.length, text, block.timestamp, users[publicKey]);
         AllPosts.push(post);
         posts[publicKey].push(post);
+
+        // emit event
+        emit NewPost(post);
     }
 
     // get posts of a user
