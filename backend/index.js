@@ -154,9 +154,7 @@ userRoutes.get('/:publicKey', async (req, res) => {
   try {
     const result = await swaggerClient.apis.default.getPostsByUser_get({
       address: contractAddress,
-      body: {
-        publicKey
-      },
+      publicKey,
       "kld-from": FROM_ADDRESS,
       "kld-sync": "true"
     });
