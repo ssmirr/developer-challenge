@@ -91,15 +91,16 @@ function Users(props) {
             props.account && !followed &&
             <button
               className={"ml-auto mr-3 text-dk-faded bg-dk-primary hover:bg-dk-primary-hover text-white font-bold py-1 px-4 rounded-full" + 
-                      (props.account == publicKey ? ' hover:bg-dk-secondary bg-dk-secondary active:bg-dk-secondary cursor-default' : '')}
+                      (props.account === publicKey ? ' hover:bg-dk-secondary bg-dk-secondary active:bg-dk-secondary cursor-not-allowed' : '')}
               onClick={() => {
-                if(props.account == publicKey)
+                if(props.account === publicKey)
                   return;
                 else if (followed)
                   unfollow()
                 else
                   follow()
-              }}>
+              }}
+              title={props.account === publicKey ? `You can't follow yourself.` : `Follow this user`}>
               Follow <SlUserFollow className="inline ml-1 my-auto" />
             </button>
           }
