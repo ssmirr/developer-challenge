@@ -17,7 +17,7 @@ function PostEditor(props) {
   async function post() {
     if (text.length === 0) return;
     // sign the text
-    const signature = (await sign()) + '0x';
+    const signature = await sign();
     
     // send the text and signature to the backend
     console.log(accountContext.account, 'is trying to make a post', text, 'with signature:', signature);
