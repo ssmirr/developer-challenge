@@ -32,6 +32,9 @@ Then:
 
 1. Install Metamask and create an account
 2. Connect Metamask to the Kaleido blockchain network ([see here for instructions](https://docs.kaleido.io/developers/smart-contracts/metamask/))
+  - RPC URL: `https://u0bodz9vo5-u0z4sr3c01-rpc.us0-aws.kaleido.io`
+  - Chain ID: `728669635`
+  - Contact me if you need username/password for the RPC URL
 3. Go to `http://localhost:3000` in your browser
 4. Click on login (your active account in Metamask will be used)
 5. on the home page, you can see all the posts (which is also visible without logging in)
