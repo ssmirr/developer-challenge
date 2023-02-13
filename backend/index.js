@@ -1,11 +1,16 @@
+const { getSwaggerAndAddress } = require('./contract');
+
 const express = require('express');
-const { ethers } = require('ethers');
+const bodyparser = require('body-parser');
 const cors = require('cors')
 const app = express();
 const server = require('http').Server(app);
 const socket = require('socket.io');
-const io = socket(server, { transports: ['websocket'] });
+const { ethers } = require('ethers');
 
+const { PORT, FROM_ADDRESS } = require('./config');
+
+const io = socket(server, { transports: ['websocket'] });
 io.sockets.on('connection', socket => {
   console.log('New ws client connected...');
 
@@ -54,42 +59,23 @@ io.sockets.on('connection', socket => {
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-const deploy = require('./deploy');
-
-const bodyparser = require('body-parser');
 const postRoutes = express.Router();
 const userRoutes = express.Router();
-
-const {
-  PORT,
-  FROM_ADDRESS,
-} = require('./config');
-
-let swaggerClient; // Initialized in init()
-let contractAddress; // Initialized in init()
 
 app.use(cors());
 app.use(bodyparser.json());
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
 
-async function init() {
-  // Deploy the contract
-  deployedContract = await deploy();
-  swaggerClient = deployedContract.swaggerClient;
-  contractAddress = deployedContract.contractAddress;
+let swaggerClient;
+let contractAddress;
 
-  // Start listening
+(async () => {
+  const contract = await getSwaggerAndAddress(process.env.DEPLOY);
+  swaggerClient = contract.swaggerClient;
+  contractAddress = contract.contractAddress;
   server.listen(PORT, () => console.log(`Kaleido DApp backend listening on port ${PORT}!`))
-}
-
-init().catch(err => {
-  console.error(err.stack);
-  process.exit(1);
-});
-
-
-
+})();
 
 
 /************** ROUTES **************
