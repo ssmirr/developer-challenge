@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import Post from '../components/post';
 import PostEditor from '../components/postEditor';
 
@@ -7,11 +7,11 @@ import { AccountContext } from '../context/AccountContext';
 function App() {
   const accountContext = useContext(AccountContext);
   const [posts, setPosts] = useState([]);
+  const listeningNewPostRef = useRef(false);
 
   useEffect(() => {
-    console.log('accountContext.socket', accountContext.socket);
-    if (accountContext.socket) {
-      console.log('listening for new post');
+    if (accountContext.socket && !listeningNewPostRef.current) {
+      listeningNewPostRef.current = true;
       accountContext.socket.on('newPost', (post) => {
         console.log('new post', post)
         setPosts(posts => [post, ...posts]);
