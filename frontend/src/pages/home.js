@@ -9,6 +9,17 @@ function App() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    console.log('accountContext.socket', accountContext.socket);
+    if (accountContext.socket) {
+      console.log('listening for new post');
+      accountContext.socket.on('newPost', (post) => {
+        console.log('new post', post)
+        setPosts(posts => [post, ...posts]);
+      });
+    }
+  }, [accountContext.socket]);
+
+  useEffect(() => {
     document.title = 'Nostr Home';
 
     fetch('/api/posts')

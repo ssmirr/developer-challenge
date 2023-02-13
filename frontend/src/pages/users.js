@@ -23,6 +23,7 @@ function Users(props) {
       })).json();
 
       if (!followResponse.error) {
+        accountContext.socket.emit('unfollow', accountContext.account);
         setFollowed(true);
         accountContext.setFollowing(following => [...following, { publicKey: publicKey }])
       }
@@ -43,6 +44,7 @@ function Users(props) {
       })).json();
 
       if (!unfollowResponse.error) {
+        accountContext.socket.emit('unfollow', accountContext.account);
         setFollowed(false);
         accountContext.setFollowing(following => following.filter(follow => follow.publicKey !== publicKey));
       }

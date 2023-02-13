@@ -8,6 +8,14 @@ function Feed(props) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    if (accountContext.socket) {
+      accountContext.socket.on("newSubscribedPost", post => {
+        setPosts([post, ...posts]);
+      });
+    }
+  }, [accountContext.socket]);
+
+  useEffect(() => {
     document.title = "Nostr Feed";
 
     if (!accountContext.account || posts.length > 0) {

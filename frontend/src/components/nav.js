@@ -59,6 +59,7 @@ function Nav() {
         console.log('logging out');
         localStorage.removeItem('account');
         accountContext.setAccount(null);
+        accountContext.socket.emit('logout', accountContext.account);
     }
 
     useEffect(() => {

@@ -1,6 +1,59 @@
 const express = require('express');
 const { ethers } = require('ethers');
+const cors = require('cors')
 const app = express();
+const server = require('http').Server(app);
+const socket = require('socket.io');
+const io = socket(server, { transports: ['websocket'] });
+
+io.sockets.on('connection', socket => {
+  console.log('New ws client connected...');
+
+  socket.on('login', async (publicKey) => {
+    console.log('login ws:', publicKey);
+    try {
+      const result = await swaggerClient.apis.default.getFollowing_get({
+        address: contractAddress,
+        publicKey,
+        body: {
+          publicKey
+        },
+        "kld-from": FROM_ADDRESS,
+        "kld-sync": "true"
+      });
+      if (result.body?.output?.length > 0) {
+        result.body.output.forEach((user) => {
+          console.log('subscribing to ws:', user.publicKey)
+          socket.join(user.publicKey);
+        });
+      }
+    }
+    catch (err) {
+      console.error('error getting following list: ', err);
+    }
+  });
+
+  socket.on('logout', (publicKey) => {
+    console.log('logout ws:', publicKey);
+    // leave all rooms
+    Object.keys(socket.rooms).forEach(room => {
+      socket.leave(room);
+    });
+  });
+
+  socket.on('follow', async (publicKey) => {
+    console.log('follow ws:', publicKey);
+    socket.join(publicKey);
+  });
+
+  socket.on('unfollow', async (publicKey) => {
+    console.log('unfollow ws:', publicKey);
+    socket.leave(publicKey);
+  });
+
+  socket.on('disconnect', () => console.log('Client disconnected'));
+});
+
 const deploy = require('./deploy');
 
 const bodyparser = require('body-parser');
@@ -15,6 +68,7 @@ const {
 let swaggerClient; // Initialized in init()
 let contractAddress; // Initialized in init()
 
+app.use(cors());
 app.use(bodyparser.json());
 app.use('/api/posts', postRoutes);
 app.use('/api/users', userRoutes);
@@ -26,7 +80,7 @@ async function init() {
   contractAddress = deployedContract.contractAddress;
 
   // Start listening
-  app.listen(PORT, () => console.log(`Kaleido DApp backend listening on port ${PORT}!`))
+  server.listen(PORT, () => console.log(`Kaleido DApp backend listening on port ${PORT}!`))
 }
 
 init().catch(err => {
@@ -226,6 +280,12 @@ postRoutes.post('/', async (req, res) => {
       "kld-from": FROM_ADDRESS,
       "kld-sync": "true"
     });
+
+    const timestamp = Math.floor(Date.now() / 1000);
+    const wsPayload = { author: { publicKey }, text, timestamp, id: timestamp };
+    io.in(publicKey).emit('newSubscribedPost', wsPayload);
+    io.emit('newPost', wsPayload);
+
     res.status(200).send(result.body);
   }
   catch (err) {
