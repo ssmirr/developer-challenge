@@ -43,7 +43,8 @@ Then:
 9. on the right side of pages, you can see the list of users you are following
 10. Enjoy!
 
-### How it works
+
+---
 
 ### Backend
 
@@ -64,7 +65,7 @@ Posts routes:
   - The posts are signed by the user's private key and it's validated by the backend before being added to the blockchain
 - `GET /api/posts/:id`: Get a post by its id
 
-#### Backend websockets
+Backend websockets:
 
 The backend also uses websockets to communicate the post stream as they are added. It uses Socket.io to implement websocket servers/client and emits the following events:
 
@@ -73,7 +74,7 @@ The backend also uses websockets to communicate the post stream as they are adde
 - `login`: will set up the websocket connection for a user, configure which rooms the user is in
 - `logout`: will remove the user from the websocket connection and all the socket.io rooms
 
-#### Frontend
+### Frontend
 
 The frontend is a React application that uses the backend to interact with the blockchain. The frontend is responsible for the following:
 
