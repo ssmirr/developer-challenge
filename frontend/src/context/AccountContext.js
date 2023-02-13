@@ -24,7 +24,11 @@ const AccountContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (!socket) {
-      const socketConn = io("http://localhost:4000", { transports: ['websocket'] });
+      let host = window.location.hostname;
+      if (host === 'localhost') {
+        host += ':4000';
+      }
+      const socketConn = io(host, { transports: ['websocket'] });
       setSocket(socketConn);
     }
   }, [socket]);
