@@ -11,13 +11,13 @@ Configure the config file:
 - Go to the Kaleido console page for your node
   - `KALEIDO_REST_GATEWAY_URL`: Grab the `REST API Gateway` URL
   - `FROM_ADDRESS`: Grab the `User account` - this will be your managed wallet signing key
-    ![REST API Gateway URL](readme1.png)
+    ![REST API Gateway URL](./screenshots/readme1.png)
 - Click the `Connect App` button in the Kaleido console on your blockchain node
   - Then `Create new App Cred` create yourself a secure credential
 - Once on the `App Cred Details` page you will need:
   - `KALEIDO_AUTH_USERNAME`: The generated `ID` (the username)
   - `KALEIDO_AUTH_PASSWORD`: The generated `Password`
-    ![App Credential](readme2.png)
+    ![App Credential](./screenshots/readme2.png)
 
 Copy [backend/config.example.json](backend/config.example.json) to `backend/config.json` and edit it to the values from the Kaleido Connect panel.
 
@@ -79,8 +79,11 @@ The backend also uses websockets to communicate the post stream as they are adde
 The frontend is a React application that uses the backend to interact with the blockchain. The frontend is responsible for the following:
 
 - Home page: shows all the posts (also visible without logging in)
+  ![Home page](./screenshots/home.png)
 - Feed page: shows the posts of the users the current user is following
+  ![Feed page](./screenshots/feed.png)
 - User profile page: shows the posts of a user and allows the user to follow/unfollow the user
+  ![User page](./screenshots/users.png)
 - Left side bar: shows navigation links and login/logout button
 - Right side bar: shows the list of users the current user is following
 - "create post" box on top of both _home and feed pages: allows the user to create a post_
