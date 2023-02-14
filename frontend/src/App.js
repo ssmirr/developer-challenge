@@ -17,24 +17,25 @@ function App() {
   return (
     <div className="h-[calc(100vh-5rem)]">
       {/* site header */}
-      <div className="h-20 flex flex-row py-3 border-b border-b-dk-border-gray">
+      <div className="hidden md:flex flex-row h-20 py-3 border-b border-b-dk-border-gray">
         {accountContext.account ?
-          <div className="flex ml-52 w-1/4 mr-au my-auto text-4xl font-sans px-5">
+          <div className="flex w-1/4 my-auto text-4xl font-sans px-5">
             Hi <img src={accountContext.avatar} className="w-10 h-10" alt="logo" /> !
           </div> :
-          <div className="flex ml-52 w-1/4 mr-au my-auto text-4xl font-sans px-5"/>
+          <div className="flex w-1/4 mr-au my-auto text-4xl font-sans px-5"/>
         }
         <Link className="mx-auto w-14 h-14" to={'/'}>
           <img src={logo} alt="logo" />
         </Link>
-        <div className="mr-56 w-1/4"/>
+        <div className="w-1/4"/>
       </div>
+      <Nav className="flex flex-row justify-center md:hidden m-2"/>
 
       {/* main content */}
       <div className="text-center flex flex-row h-full">
 
         {/* left sidebar */}
-        <div className="flex flex-col ml-52 w-1/4 border-r p-5 border-r-dk-border-gray">
+        <div className="hidden md:flex md:flex-col w-1/4 max-w-3xl border-r p-5 border-r-dk-border-gray">
           <Nav />
         </div>
 
@@ -45,7 +46,7 @@ function App() {
         </Routes>
 
         {/* right sidebar */}
-        <div className="flex flex-col mr-56 w-1/4 border-l p-5 border-l-dk-border-gray">
+        <div className="hidden md:flex md:flex-col w-1/4 max-w-3xl border-l p-5 border-l-dk-border-gray">
           <FollowingSideBar />
         </div>
       </div>

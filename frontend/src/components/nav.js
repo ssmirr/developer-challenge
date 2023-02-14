@@ -4,7 +4,7 @@ import { TbLogout, TbWallet } from 'react-icons/tb';
 
 import { AccountContext } from '../context/AccountContext';
 
-function Nav() {
+function Nav(props) {
     const accountContext = useContext(AccountContext);
 
     async function connectMetamask() {
@@ -70,7 +70,7 @@ function Nav() {
     }, [accountContext]);
 
     return (
-        <div className="flex flex-col space-y-1">
+        <div className={props.className || "flex flex-col space-y-1"}>
             <Link
                 className="flex flex-row px-3 py-2 rounded border text-dk-faded bg-dk-primary hover:bg-dk-primary-hover active:bg-dk-primary cursor-pointer"
                 to="/">

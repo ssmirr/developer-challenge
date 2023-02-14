@@ -91,7 +91,8 @@ function Users(props) {
       <div>
         <div className="border-b border-b-dk-border-gray text-dk-secondary py-5 flex">
           <div className="ml-3 my-auto">
-            You are seeing posts from {publicKey} 
+            <span className="hidden md:inline">You are seeing posts from </span>
+            {publicKey.substring(0, 10)}...
             <TbCopy className="inline ml-1 hover:text-dk-secondary-hover cursor-pointer my-auto" onClick={() => { navigator.clipboard.writeText(publicKey) }} />
           </div>
           {
