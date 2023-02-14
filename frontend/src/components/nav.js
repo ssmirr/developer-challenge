@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TbLogout, TbWallet } from 'react-icons/tb';
 
@@ -6,6 +6,7 @@ import { AccountContext } from '../context/AccountContext';
 
 function Nav(props) {
     const accountContext = useContext(AccountContext);
+    const [currentPage, setCurrentPage] = useState(window.location.pathname);
 
     async function connectMetamask() {
         console.log('connecting metamask wallet');
@@ -72,13 +73,15 @@ function Nav(props) {
     return (
         <div className={props.className || "flex flex-col space-y-1"}>
             <Link
-                className="flex flex-row px-3 py-2 rounded border text-dk-faded bg-dk-primary hover:bg-dk-primary-hover active:bg-dk-primary cursor-pointer"
-                to="/">
+                className={"flex flex-row px-3 py-2 rounded border text-dk-faded hover:bg-dk-primary-hover active:bg-dk-primary cursor-pointer " + (currentPage === '/' ? 'bg-dk-primary-hover' : 'bg-dk-primary')}
+                to="/"
+                onClick={() => {setCurrentPage('/')}}>
                 Home
             </Link>
             <Link
-                className="flex flex-row px-3 py-2 rounded border text-dk-faded bg-dk-primary hover:bg-dk-primary-hover active:bg-dk-primary cursor-pointer"
-                to="/feed">
+                className={"flex flex-row px-3 py-2 rounded border text-dk-faded hover:bg-dk-primary-hover active:bg-dk-primary cursor-pointer " + (currentPage === '/feed' ? 'bg-dk-primary-hover' : 'bg-dk-primary')}
+                to="/feed"
+                onClick={() => {setCurrentPage('/feed')}}>
                 Feed
             </Link>
             {accountContext.account ?
