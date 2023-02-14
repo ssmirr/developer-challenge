@@ -104,8 +104,10 @@ The smart contract is written in Solidity and is deployed on the Kaleido blockch
 
 ## Possible improvements
 
-- I would use a more robust authentication system (e.g. JWT) instead of using the user's public key as the identifier
-- I would an off-chain way to store the posts (might be interesting to explore IPFS) instead of storing the posts on the blockchain, and support publishing media files
-- A short-lived cache (possibly redis) for the posts on the backend to avoid querying the blockchain for every request
-- I would add a way to delete, like, comment, share a post
-- I would add a way to search for users and posts
+- Use a more robust authentication system (e.g. JWT) instead of using the user's public key as the identifier
+- Use an off-chain way to store the posts (might be interesting to explore IPFS) instead of storing the posts on the blockchain, and support publishing media files
+- Add a short-lived cache (possibly redis) for the posts on the backend to avoid querying the blockchain for every request
+- Implement delete, like, comment, share a post
+- Implement search for users and posts (might be challenging, or need changes to the smart contract)
+- Add a loading indicator when the user is waiting for a response from the backend
+- Frontend tests
