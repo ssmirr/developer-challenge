@@ -1,4 +1,4 @@
-# Kaleido Developer Challenge: (Nostr + Twitter) as a DApp
+# Kaleido Developer Challenge: (Nostr + Twitter) as a DApp [![CI](https://github.com/ssmirr/developer-challenge/actions/workflows/ci.yml/badge.svg)](https://github.com/ssmirr/developer-challenge/actions/workflows/ci.yml)
 
 ## Introduction
 
