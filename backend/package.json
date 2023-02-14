@@ -4,7 +4,7 @@
   "description": "Backend for the kaleido-dapp",
   "main": "index.js",
   "scripts": {
-    "test": "jest --colors",
+    "test": "jest --colors --forceExit --runInBand",
     "start": "node .",
     "deploy-start": "DEPLOY=true node ."
   },
