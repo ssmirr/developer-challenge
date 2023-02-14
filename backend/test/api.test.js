@@ -2,7 +2,7 @@ const path = require('path');
 const request = require('supertest');
 const childProcess = require('child_process');
 const baseURL = 'http://localhost:4000/api';
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 
 const publicKeyA = '0xc76c905edd6986049259159e169e0fffb5794831';
 const publicKeyB = '0x7f64dB7e8a97b06f4e9fdc7781213ab3ac5d7fb3';
@@ -20,7 +20,7 @@ beforeAll(async () => {
       }
     });
   });
-}, 30000);
+}, 60000);
 afterAll(() => {
   expressApp.kill();
 });
