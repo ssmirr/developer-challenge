@@ -54,7 +54,7 @@ Then:
 The backend is a Node.js server that uses Express.js to handle requests. The backend also uses the Kaleido OpenAPI generated endpoints to interact with the blockchain. The backend is responsible for the following:
 
 Users routes:
-- `POST /api/users/login`: Login a user (or create a new user if they don't exist)
+- `POST /api/users`: Login a user (or create a new user if they don't exist)
 - `GET /api/users`: Get all users
 - `POST /api/users/follow`: Follow a user
 - `POST /api/users/unfollow`: Unfollow a user
@@ -99,3 +99,13 @@ I tried to use Kaleido UI colors as much as possible, and keep the UI simple and
 ### Smart contract
 
 The smart contract is written in Solidity and is deployed on the Kaleido blockchain. The smart contract is available [in the `contracts` folder](./backend/contracts/nostr.sol).
+
+---
+
+## Possible improvements
+
+- I would use a more robust authentication system (e.g. JWT) instead of using the user's public key as the identifier
+- I would an off-chain way to store the posts (might be interesting to explore IPFS) instead of storing the posts on the blockchain, and support publishing media files
+- A short-lived cache (possibly redis) for the posts on the backend to avoid querying the blockchain for every request
+- I would add a way to delete, like, comment, share a post
+- I would add a way to search for users and posts

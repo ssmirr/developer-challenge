@@ -36,7 +36,7 @@ function Nav(props) {
             // set public key to login endpoint
 
             try {
-                const loginResult = await fetch('/api/users/login', {
+                const loginResult = await fetch('/api/users', {
                     method: 'POST',
                     body: JSON.stringify({ publicKey: accounts[0] }),
                     headers: { 'Content-Type': 'application/json' }

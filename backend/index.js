@@ -85,7 +85,7 @@ let contractAddress;
  ************************************/
 
 //  login
-userRoutes.post('/login', async (req, res) => {
+userRoutes.post('/', async (req, res) => {
   try {
     const { publicKey } = req.body;
     const result = await swaggerClient.apis.default.createUser_post({
