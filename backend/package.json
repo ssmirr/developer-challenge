@@ -28,6 +28,7 @@
     "cors": "^2.8.5",
     "ethers": "^5.7.2",
     "express": "^4.17.1",
+    "mongoose": "^6.9.1",
     "node-stream-zip": "^1.8.2",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.7",

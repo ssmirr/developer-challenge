@@ -111,3 +111,43 @@ The smart contract is written in Solidity and is deployed on the Kaleido blockch
 - Implement search for users and posts (might be challenging, or need changes to the smart contract)
 - Add a loading indicator when the user is waiting for a response from the backend
 - Frontend tests
+
+---
+
+## V2 (WIP)
+
+- Contract: [nostr-v2.sol](./backend/contracts/nostr-v2.sol)
+- Mongoose models: 
+  - [user](./backend/models/user.js)
+  - [post](./backend/models/post.js)
+
+Contract will be as minumal as it can be, and only server as _source of truth for the posts_. The posts will be stored in a MongoDB database, and the users will be stored in a MongoDB database.
+
+### Contract
+
+Contract only keeps track of the posts, more specifically storing only the `signature`, `publicKey`, and two mappings to help us find the posts by `publicKey` and by `signature` efficiently.
+
+> I'm sort of debating whether to store the `publicKey` in the contract or not 🤔
+
+### Database
+
+Database stores posts (`body`, `signature`, `transactionId`) and users (`publicKey`, `username`, `followers`, `following`).
+
+> `signature` is only stored in the database to use it as a unique identifier for the posts. It's not used for anything else.
+
+### Backend
+
+Submiting a new post:
+- The post is signed by the user's private key + metamask on the frontend
+- The post body, signature, and public key are sent to the backend
+- The backend validates the signature and public key, and if it's valid ...
+- Backend sends the `signature` + `publicKey` to blockchain (using Kaleido OpenAPI endpoints), then stores the `body` + `signature` + `transactionId` in the database
+
+Getting and displaying posts:
+- The posts are fetched from the database, and display: `body` of the post, the user (`publicKey`) who created the post, and a link to the transaction on blockchain explorer.
+- People can verify authenticity of a post:
+  - They can check the signature on blockchain explorer + the `body` of the post that was stored off-chain:
+    ```js
+    const signerAddress = ethers.utils.verifyMessage(off-chain-text, on-chain-signature);
+    ```
+  - If the calculated `signerAddress` above matches the `publicKey` of user who we claim to be the author, then they know the post is valid.
